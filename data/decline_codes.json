@@ -1,0 +1,99 @@
+{
+  "_meta": {
+    "purpose": "Taxonomy of payment decline reasons for the Smart Recovery Engine. Grounded in published industry benchmarks (Slicker, ChurnWard, Chargebee, Razorpay blog) for occurrence weights and recovery rates, since real per-transaction retry logs are not publicly available.",
+    "categories": ["soft_decline", "hard_decline", "upi_specific"],
+    "last_updated": "2026-08-25"
+  },
+  "decline_codes": [
+    {
+      "code": "INSUFFICIENT_FUNDS",
+      "category": "soft_decline",
+      "description": "Card or account had insufficient balance at time of charge",
+      "occurrence_weight": 0.28,
+      "base_retry_success_prob": 0.55,
+      "notes": "Highly time-sensitive - success probability rises sharply near salary-credit dates",
+      "recommended_action": "smart_retry_timed"
+    },
+    {
+      "code": "ISSUER_TIMEOUT",
+      "category": "soft_decline",
+      "description": "Bank/issuer server did not respond in time (network/infra issue, not a real decline)",
+      "occurrence_weight": 0.14,
+      "base_retry_success_prob": 0.82,
+      "notes": "Not the customer's fault at all - safest and highest-value retry candidate",
+      "recommended_action": "immediate_retry"
+    },
+    {
+      "code": "DO_NOT_HONOR_TEMP",
+      "category": "soft_decline",
+      "description": "Generic temporary decline from issuer, often a soft risk flag",
+      "occurrence_weight": 0.10,
+      "base_retry_success_prob": 0.45,
+      "notes": "Ambiguous code - treat as soft but do not over-retry",
+      "recommended_action": "smart_retry_timed"
+    },
+    {
+      "code": "CARD_EXPIRED",
+      "category": "hard_decline",
+      "description": "Card expiry date has passed",
+      "occurrence_weight": 0.12,
+      "base_retry_success_prob": 0.03,
+      "notes": "Retrying is pointless - needs a new card on file",
+      "recommended_action": "escalate_update_payment_method"
+    },
+    {
+      "code": "CARD_LOST_STOLEN",
+      "category": "hard_decline",
+      "description": "Card reported lost or stolen, blocked by issuer",
+      "occurrence_weight": 0.05,
+      "base_retry_success_prob": 0.01,
+      "notes": "Never retry - only escalate to new payment method",
+      "recommended_action": "escalate_update_payment_method"
+    },
+    {
+      "code": "INVALID_CARD_DETAILS",
+      "category": "hard_decline",
+      "description": "CVV or card number mismatch, likely stale stored token",
+      "occurrence_weight": 0.06,
+      "base_retry_success_prob": 0.02,
+      "notes": "Needs re-entry of card details by customer",
+      "recommended_action": "escalate_update_payment_method"
+    },
+    {
+      "code": "UPI_MANDATE_NOT_CONFIRMED",
+      "category": "upi_specific",
+      "description": "UPI AutoPay mandate exists but was not confirmed in the payer's app in time",
+      "occurrence_weight": 0.09,
+      "base_retry_success_prob": 0.38,
+      "notes": "Common India-specific failure - customer often just didn't open the app in time",
+      "recommended_action": "whatsapp_nudge"
+    },
+    {
+      "code": "UPI_PSP_APP_ERROR",
+      "category": "upi_specific",
+      "description": "Failure at the payer's UPI app (GPay/PhonePe/Paytm) or PSP server, not the bank",
+      "occurrence_weight": 0.08,
+      "base_retry_success_prob": 0.60,
+      "notes": "Transient - short-window retry works well",
+      "recommended_action": "immediate_retry"
+    },
+    {
+      "code": "UPI_MANDATE_REVOKED",
+      "category": "upi_specific",
+      "description": "Customer actively cancelled the UPI AutoPay mandate",
+      "occurrence_weight": 0.03,
+      "base_retry_success_prob": 0.00,
+      "notes": "This is voluntary churn, not involuntary - exclude from recovery funnel, route to win-back instead",
+      "recommended_action": "exclude_route_to_winback"
+    },
+    {
+      "code": "BANK_SERVER_DOWN",
+      "category": "soft_decline",
+      "description": "Issuing bank's server was down/under maintenance at charge time",
+      "occurrence_weight": 0.05,
+      "base_retry_success_prob": 0.75,
+      "notes": "Pure infra issue - retry after a few hours almost always works",
+      "recommended_action": "immediate_retry"
+    }
+  ]
+}
