@@ -45,7 +45,7 @@ Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log i
 `docs/`.
 
 - [x] Day 1: Project scaffolding + decline-code taxonomy
-- [ ] Day 2: Synthetic data generator
+- [x] Day 2: Synthetic data generator
 - [ ] Day 3: EDA + feature engineering
 - [ ] Day 4: ML retry-success classifier
 - [ ] Day 5: Rule-based scheduler
