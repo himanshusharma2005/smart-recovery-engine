@@ -53,6 +53,16 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     features["retry_day_of_month"] = df["retry_day_of_month"]
     features["is_salary_window"] = df["is_salary_window"].astype(int)
 
+    # Interaction feature: the salary-window boost was only ever designed to
+    # apply to funds-related failures (Day 2's generator only boosts
+    # INSUFFICIENT_FUNDS and DO_NOT_HONOR_TEMP). Without this interaction term,
+    # a linear model can only learn ONE global salary-window effect across all
+    # 8 decline codes, which dilutes the real signal down to near-zero because
+    # it's genuinely irrelevant for 6 of them. This lets the model learn the
+    # effect specifically where it actually exists.
+    funds_related = df["decline_code"].isin(["INSUFFICIENT_FUNDS", "DO_NOT_HONOR_TEMP"]).astype(int)
+    features["salary_window_x_funds_related"] = features["is_salary_window"] * funds_related
+
     # Days between original failure and retry attempt (handles month wraparound
     # the same way generate_data.py did, so it's consistent with how the data was made)
     days_gap = (df["retry_day_of_month"] - df["charge_day_of_month"]) % 28
