@@ -117,6 +117,11 @@ def run_one_trial(df, taxonomy_by_code, seed):
 
 
 def main():
+    if not SCHEDULED_PATH.exists():
+        print(f"ERROR: {SCHEDULED_PATH.name} not found.")
+        print(f"Run this first: python src/rule_scheduler.py")
+        raise SystemExit(1)
+
     df = load_and_merge()
     taxonomy = load_taxonomy()
     taxonomy_by_code = {c["code"]: c for c in taxonomy}

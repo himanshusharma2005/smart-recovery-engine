@@ -94,6 +94,11 @@ def print_feature_summary(features: pd.DataFrame):
 
 
 def main():
+    if not INPUT_PATH.exists():
+        print(f"ERROR: {INPUT_PATH.name} not found.")
+        print(f"Run this first: python src/generate_data.py")
+        raise SystemExit(1)
+
     retryable = load_retryable_transactions()
     features = engineer_features(retryable)
 

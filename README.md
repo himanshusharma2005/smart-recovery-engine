@@ -3,6 +3,19 @@
 An AI-assisted revenue recovery system for failed recurring payments, built for
 [Razorpay's hackathon](#) under Track 3: AI Revenue Recovery.
 
+## Quickstart
+
+```bash
+pip install -r requirements.txt
+python run_pipeline.py
+streamlit run dashboard/app.py
+```
+
+That's it - `run_pipeline.py` runs all 5 pipeline steps in order (data
+generation, feature engineering, model training, scheduling, simulation)
+and reports progress as it goes. Takes about 20-30 seconds. The dashboard
+then opens in your browser automatically.
+
 ## The problem
 
 Involuntary churn — a paying customer being silently dropped because a recurring
@@ -65,32 +78,39 @@ Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log i
 - [x] Day 5: Rule-based scheduler
 - [x] Day 6: Simulation engine (naive vs. smart)
 - [x] Day 7: Dashboard
-- [ ] Day 8: Integration
+- [x] Day 8: Integration + polish
 - [ ] Day 9: Docs + demo video
 - [ ] Day 10: Final test + submission
 
-## Run the dashboard
+## Detailed setup
 
-```bash
-streamlit run dashboard/app.py
-```
-
-Requires the pipeline scripts to have been run first (see Setup below) so
-the dashboard has data to load.
-
-## Setup
+If you'd rather run each pipeline step individually instead of
+`run_pipeline.py` (useful when iterating on one step):
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate      # on Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
 python src/validate_taxonomy.py
+python src/generate_data.py
+python src/eda.py
+python src/build_features.py
+python src/train_model.py
+python src/rule_scheduler.py
+python src/simulate_recovery.py
+streamlit run dashboard/app.py
 ```
+
+Each script checks that its required input exists and tells you exactly
+which earlier script to run if something's missing, rather than crashing
+with an unclear error.
 
 ## Project structure
 
 ```
 smart-recovery-engine/
+├── run_pipeline.py       one-command runner for the full pipeline
 ├── data/                 decline code taxonomy + generated synthetic data
 ├── src/                  core logic: data gen, features, model, rules, simulation
 ├── notebooks/            EDA and model training notebooks

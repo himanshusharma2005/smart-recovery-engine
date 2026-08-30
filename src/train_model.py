@@ -93,6 +93,11 @@ def plot_feature_importance(model, feature_cols, model_name):
 
 
 def main():
+    if not FEATURES_PATH.exists():
+        print(f"ERROR: {FEATURES_PATH.name} not found.")
+        print(f"Run this first: python src/build_features.py")
+        raise SystemExit(1)
+
     X, y, feature_cols = load_data()
 
     X_train, X_test, y_train, y_test = train_test_split(

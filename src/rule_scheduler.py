@@ -152,6 +152,15 @@ def decide_action(row, model_bundle):
 
 
 def main():
+    if not TRANSACTIONS_PATH.exists():
+        print(f"ERROR: {TRANSACTIONS_PATH.name} not found.")
+        print(f"Run this first: python src/generate_data.py")
+        raise SystemExit(1)
+    if not MODEL_PATH.exists():
+        print(f"ERROR: {MODEL_PATH.name} not found.")
+        print(f"Run this first: python src/train_model.py")
+        raise SystemExit(1)
+
     df = pd.read_csv(TRANSACTIONS_PATH)
     for col in ["is_voluntary_churn", "is_salary_window", "retry_success"]:
         df[col] = df[col].map({"True": True, "False": False, True: True, False: False})
