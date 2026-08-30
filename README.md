@@ -64,10 +64,19 @@ Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log i
 - [x] Day 4: ML retry-success classifier
 - [x] Day 5: Rule-based scheduler
 - [x] Day 6: Simulation engine (naive vs. smart)
-- [ ] Day 7: Dashboard
+- [x] Day 7: Dashboard
 - [ ] Day 8: Integration
 - [ ] Day 9: Docs + demo video
 - [ ] Day 10: Final test + submission
+
+## Run the dashboard
+
+```bash
+streamlit run dashboard/app.py
+```
+
+Requires the pipeline scripts to have been run first (see Setup below) so
+the dashboard has data to load.
 
 ## Setup
 
