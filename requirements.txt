@@ -5,3 +5,4 @@ faker==25.8.0
 streamlit==1.36.0
 matplotlib==3.9.0
 jupyter==1.0.0
+joblib==1.4.2
