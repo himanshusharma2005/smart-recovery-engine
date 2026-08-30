@@ -42,9 +42,9 @@ step-by-step manual instructions (still useful if someone wants to run and
 inspect one step at a time) into a "Detailed setup" section further down,
 rather than making it the first thing a reader sees.
 
-## What's next (Day 9)
+## Result
 
-Final documentation pass and preparing the demo script/video - making sure
-the project can be explained clearly and concisely to a judge who has
-never seen it before, in the amount of time a hackathon demo actually
-allows.
+All 8 days of the pipeline - taxonomy, data generation, EDA, feature
+engineering, model training, rule-based scheduling, simulation, and the
+dashboard - now run end-to-end from a single command, verified from a
+completely clean state.

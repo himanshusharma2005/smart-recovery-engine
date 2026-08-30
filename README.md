@@ -68,8 +68,8 @@ first-party or synthetic data.
 
 ## Project status
 
-Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log in
-`docs/`.
+Built day by day for the hackathon. Full build log and design reasoning
+for each day in `docs/`.
 
 - [x] Day 1: Project scaffolding + decline-code taxonomy
 - [x] Day 2: Synthetic data generator
@@ -79,8 +79,6 @@ Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log i
 - [x] Day 6: Simulation engine (naive vs. smart)
 - [x] Day 7: Dashboard
 - [x] Day 8: Integration + polish
-- [ ] Day 9: Docs + demo video
-- [ ] Day 10: Final test + submission
 
 ## Detailed setup
 
