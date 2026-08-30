@@ -17,6 +17,20 @@ and their Sprint 2026 release included a WhatsApp-based nudge system specificall
 for UPI AutoPay mandate failures - a failure mode global tools like Stripe Billing
 don't natively handle, since UPI AutoPay is India-specific.
 
+## The result
+
+Simulated on 1,202 retryable failed transactions (10,000-transaction synthetic dataset):
+
+| | Naive (blind retry) | Smart Recovery Engine |
+|---|---|---|
+| Recovery rate | 48.5% | **56.4%** |
+| Revenue recovered | Rs 4,12,517 | **Rs 4,79,578** |
+
+**+7.9 percentage points, +16.3% more revenue recovered** - averaged over
+200 Monte Carlo trials (std dev: 1.5pp), not a single lucky run. Full
+breakdown of where the lift comes from, including which numbers are
+measured vs. assumed, in `docs/day6_notes.md`.
+
 ## What this project does
 
 Instead of retrying every failed payment the same way, this engine:
@@ -49,7 +63,7 @@ Being built day by day for the hackathon (deadline Sept 3, 2026). Progress log i
 - [x] Day 3: EDA + feature engineering
 - [x] Day 4: ML retry-success classifier
 - [x] Day 5: Rule-based scheduler
-- [ ] Day 6: Simulation engine (naive vs. smart)
+- [x] Day 6: Simulation engine (naive vs. smart)
 - [ ] Day 7: Dashboard
 - [ ] Day 8: Integration
 - [ ] Day 9: Docs + demo video
